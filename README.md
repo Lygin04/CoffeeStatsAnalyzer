@@ -1,54 +1,34 @@
-# CoffeeStatsAnalyzer
+# Добавление нового отчета
 
-Скрипт читает CSV-файлы с данными о подготовке студентов к экзаменам и формирует
-консольный отчет. Сейчас реализован отчет `median-coffee`: медианная сумма трат
-на кофе по каждому студенту за весь период, отсортированная по убыванию трат.
+Добавил новый отчет `total-rows`, который считает количество строк по всем
+переданным CSV-файлам. Логика подключается через реестр `REPORTS` в `main.py`.
 
-## Требования
+## Что именно добавлено
 
-- Python 3.10+
-- Зависимость для вывода таблиц: `tabulate`
-- Для тестов: `pytest`
+В `main.py` добавлена функция:
 
-## Установка зависимостей
-
-```bash
-pip install tabulate pytest
+```python
+def build_total_rows_report(records: Iterable[Record]) -> ReportRows:
+    records_list = list(records)
+    return [["total_rows", len(records_list)]]
 ```
 
-## Запуск
+И зарегистрирован новый отчет в `REPORTS`:
 
-Пример запуска с файлами из папки `Example`:
-
-```bash
-python main.py --files Example\math.csv Example\physics.csv Example\programming.csv --report median-coffee
+```python
+"total-rows": ReportDefinition(
+    name="total-rows",
+    headers=("metric", "value"),
+    builder=build_total_rows_report,
+),
 ```
 
-Можно передавать несколько файлов, отчет строится по всем данным сразу.
+## Как запускать
 
-![Пример запуска](screenshots/Program%20run.png)
-
-## Формат CSV
-
-Ожидаемые поля (минимум):
-
-- `student`
-- `coffee_spent`
-
-Остальные поля могут присутствовать, но на отчет не влияют.
-
-## Тесты
+Пример команды:
 
 ```bash
-pytest
+python main.py --files Example\math.csv Example\physics.csv --report total-rows
 ```
 
-![Пример тестов](screenshots/Tests.png)
-
-## Добавление новых отчетов
-
-1. Напишите функцию-строитель, которая принимает список записей и возвращает
-   строки отчета (список списков).
-2. Добавьте новую запись в `REPORTS` в `main.py`, указав имя, заголовки и
-   функцию-строитель.
-3. Передавайте имя отчета через `--report`.
+![Пример отчета total-rows](screenshots/New%20report.png)
