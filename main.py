@@ -63,11 +63,21 @@ def build_median_coffee_report(records: Iterable[Record]) -> ReportRows:
     return rows
 
 
+def build_total_rows_report(records: Iterable[Record]) -> ReportRows:
+    records_list = list(records)
+    return [["total_rows", len(records_list)]]
+
+
 REPORTS: dict[str, ReportDefinition] = {
     "median-coffee": ReportDefinition(
         name="median-coffee",
         headers=("student", "median_coffee_spent"),
         builder=build_median_coffee_report,
+    ),
+    "total-rows": ReportDefinition(
+        name="total-rows",
+        headers=("metric", "value"),
+        builder=build_total_rows_report,
     ),
 }
 
