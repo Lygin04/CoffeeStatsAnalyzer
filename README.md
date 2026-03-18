@@ -45,6 +45,10 @@ pytest
 
 ![Пример тестов](screenshots/Tests.png)
 
+Покрытие тестами: 94%.
+
+![Покрытие тестами](screenshots/Tests%20coverage.png)
+
 ## Добавление новых отчетов
 
 Пример можно посмотреть в ветке `new-report` — там в README есть описание.
